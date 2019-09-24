@@ -26,6 +26,25 @@ const handlePost = (request, response, parsedUrl) => {
       jsonHandler.respond(request, response, bodyParams.page, query.parse(parsedUrl.query));
     });
   }
+
+  if (parsedUrl.pathname === '/addUser') {
+    const body = [];
+
+    request.on('error', () => {
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+      jsonHandler.addUser(request, response, bodyParams);
+    });
+  }
 };
 
 // handles get requests
@@ -38,7 +57,7 @@ const handleGet = (request, response, parsedUrl) => {
       htmlHandler.getCSS(request, response);
       break;
     default:
-      jsonHandler.respond(request, response, parsedUrl.pathname, query.parse(parsedUrl.query));
+      // jsonHandler.respond(request, response, parsedUrl.pathname, query.parse(parsedUrl.query));
       break;
   }
 };
