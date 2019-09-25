@@ -47,14 +47,22 @@ const handlePost = (request, response, parsedUrl) => {
   }
 };
 
-// handles get requests
-const handleGet = (request, response, parsedUrl) => {
+// handles get and head requests
+const handleOther = (request, response, parsedUrl) => {
   switch (parsedUrl.pathname) {
     case '/':
       htmlHandler.getIndex(request, response);
       break;
     case '/style.css':
       htmlHandler.getCSS(request, response);
+      break;
+    case '/getUsers':
+      if (request.method === 'GET') jsonHandler.getUsers(request, response);
+      else jsonHandler.getUsersMeta(request, response);
+      break;
+    case '/notReal':
+      if (request.method === 'GET') jsonHandler.notFound(request, response);
+      else jsonHandler.notFoundMeta(request, response);
       break;
     default:
       // jsonHandler.respond(request, response, parsedUrl.pathname, query.parse(parsedUrl.query));
@@ -69,7 +77,7 @@ const onRequest = (request, response) => {
   if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
   } else {
-    handleGet(request, response, parsedUrl);
+    handleOther(request, response, parsedUrl);
   }
 };
 
