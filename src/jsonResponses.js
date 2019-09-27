@@ -7,11 +7,13 @@ const respondJSON = (request, response, status, object) => {
   response.end();
 };
 
+//Doesn't return content
 const respondJSONMeta = (request, response, status) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.end();
 };
 
+//Creates a new user in the users object or updates it if it already exists
 const addUser = (request, response, body) => {
   const responseJSON = {
     message: 'Name and age are both required.',
@@ -48,6 +50,7 @@ const addUser = (request, response, body) => {
   return respondJSONMeta(request, response, responseCode); // 204
 };
 
+//Returns the users object
 const getUsers = (request, response) => {
   const responseJSON = {
     users,
@@ -56,8 +59,10 @@ const getUsers = (request, response) => {
   return respondJSON(request, response, 200, responseJSON);
 };
 
+//Returns no content
 const getUsersMeta = (request, response) => respondJSONMeta(request, response, 200);
 
+//Returns the response as JSON
 const notFound = (request, response) => {
   const responseJSON = {
     message: 'The page you are looking for was not found!',
@@ -67,6 +72,7 @@ const notFound = (request, response) => {
   return respondJSON(request, response, 404, responseJSON);
 };
 
+//Returns no content
 const notFoundMeta = (request, response) => respondJSONMeta(request, response, 404);
 
 module.exports = {

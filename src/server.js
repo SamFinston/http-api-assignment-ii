@@ -65,7 +65,7 @@ const handleOther = (request, response, parsedUrl) => {
       else jsonHandler.notFoundMeta(request, response);
       break;
     default:
-      // jsonHandler.respond(request, response, parsedUrl.pathname, query.parse(parsedUrl.query));
+      jsonHandler.notFound(request, response);
       break;
   }
 };
